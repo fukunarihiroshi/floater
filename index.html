@@ -25,17 +25,53 @@
     background: #0a0e14;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     font-family: 'Noto Serif JP', serif;
     color: #e8e0d0;
     gap: 0;
+    padding: 20px 16px;
+  }
+
+  /* ── 左サイドパネル ── */
+  .controls {
+    flex-shrink: 0;
+    width: 148px;
+    align-self: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-right: 16px;
+  }
+  .controls-label {
+    font-size: 0.64rem;
+    color: #5a6a7a;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1.4;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 2px;
+  }
+
+  /* ── メインコンテンツ列 ── */
+  .main-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-width: 0;
   }
 
   header {
     text-align: center;
-    padding: 28px 20px 18px;
+    padding: 0 20px 14px;
     letter-spacing: 0.04em;
   }
   header h1 {
@@ -54,7 +90,7 @@
 
   .app-wrap {
     position: relative;
-    width: min(700px, 96vw);
+    width: min(700px, calc(96vw - 180px));
     aspect-ratio: 4/3;
     border-radius: 16px;
     overflow: hidden;
@@ -74,7 +110,7 @@
   .floater-layer {
     position: absolute; inset: 0;
     pointer-events: none;
-    clip-path: inset(0 50% 0 0); /* 動的に変化 */
+    clip-path: inset(0 50% 0 0);
     transition: none;
   }
 
@@ -136,9 +172,70 @@
   }
   .divider-handle svg { width: 20px; height: 20px; }
 
+  .cb-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+    transition: background 0.2s, border-color 0.2s;
+    width: 100%;
+  }
+  .cb-item:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .cb-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: background 0.18s, border-color 0.18s;
+  }
+  .cb-item input[type="checkbox"]:checked {
+    background: #c87840;
+    border-color: #c87840;
+  }
+  .cb-item input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 3px; top: 0px;
+    width: 5px; height: 9px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(42deg);
+  }
+  .cb-item .cb-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .cb-item .cb-text {
+    font-size: 0.72rem;
+    color: #c8c0b0;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+  .cb-item .cb-text small {
+    display: block;
+    font-size: 0.62rem;
+    color: #5a6a7a;
+    margin-top: 1px;
+  }
+
   /* ── 下部説明 ── */
   footer {
-    padding: 16px 20px 24px;
+    padding: 14px 20px 20px;
     text-align: center;
     font-size: 0.72rem;
     color: #5a6a7a;
@@ -149,6 +246,43 @@
 </style>
 </head>
 <body>
+
+<!-- ── 左サイドパネル ── -->
+<div class="controls" id="controls">
+  <div class="controls-label">表示する<br>症状を選択</div>
+
+  <label class="cb-item">
+    <input type="checkbox" id="cb-worm" checked>
+    <span class="cb-icon">🪱</span>
+    <span class="cb-text">ワーム型<small>糸くず状</small></span>
+  </label>
+
+  <label class="cb-item">
+    <input type="checkbox" id="cb-dot" checked>
+    <span class="cb-icon">⚫</span>
+    <span class="cb-text">ドット型<small>点状</small></span>
+  </label>
+
+  <label class="cb-item">
+    <input type="checkbox" id="cb-ring" checked>
+    <span class="cb-icon">⭕</span>
+    <span class="cb-text">リング型<small>輪っか状</small></span>
+  </label>
+
+  <label class="cb-item">
+    <input type="checkbox" id="cb-cluster" checked>
+    <span class="cb-icon">🕷</span>
+    <span class="cb-text">クラスター型<small>蜘蛛の巣状</small></span>
+  </label>
+
+  <label class="cb-item">
+    <input type="checkbox" id="cb-goma" checked>
+    <span class="cb-icon">🫘</span>
+    <span class="cb-text">ゴマ型<small>小点群・視野全体</small></span>
+  </label>
+</div>
+
+<div class="main-col">
 
 <header>
   <h1>飛蚊症シミュレーター</h1>
@@ -240,19 +374,17 @@
     <path d="M0 450 Q80 430 160 448 Q240 464 320 445 Q400 428 480 450 Q560 468 640 448 L700 455 L700 525 L0 525Z" fill="#3d8832"/>
 
     <!-- 遠景の建物（かすか） -->
-    <rect x="315" y="275" width="18" height="30" fill="#b0c8e0" opacity="0.5"/>
-    <rect x="338" y="268" width="12" height="37" fill="#a8c0d8" opacity="0.45"/>
-    <rect x="355" y="278" width="14" height="27" fill="#b0c8e0" opacity="0.4"/>
-
-    <!-- 道 -->
-    <path d="M280 525 Q330 430 360 380 Q380 350 395 335 Q410 350 430 380 Q460 430 510 525Z" fill="#c8b890" opacity="0.55"/>
-    <path d="M335 525 Q348 450 358 400 Q362 380 365 365 Q368 380 372 400 Q382 450 395 525Z" fill="#d4c49a" opacity="0.4"/>
+    <rect x="310" y="268" width="30" height="35" rx="2" fill="#a0b8c8" opacity="0.35"/>
+    <rect x="344" y="275" width="22" height="28" rx="2" fill="#90a8b8" opacity="0.3"/>
+    <rect x="290" y="276" width="18" height="27" rx="2" fill="#a8b8c4" opacity="0.28"/>
+    <rect x="314" y="262" width="22" height="8" rx="1" fill="#b0c0cc" opacity="0.3"/>
 
     <!-- ベンチ -->
-    <rect x="205" y="355" width="70" height="8" rx="2" fill="#8b6340"/>
-    <rect x="210" y="363" width="6" height="18" rx="1" fill="#7a5530"/>
-    <rect x="264" y="363" width="6" height="18" rx="1" fill="#7a5530"/>
-    <rect x="205" y="345" width="70" height="5" rx="1" fill="#9b7350" opacity="0.7"/>
+    <rect x="205" y="350" width="75" height="8" rx="3" fill="#c8a870"/>
+    <rect x="205" y="342" width="75" height="6" rx="2" fill="#d4b880" opacity="0.8"/>
+    <rect x="210" y="358" width="6" height="18" rx="1" fill="#7a5530"/>
+    <rect x="264" y="358" width="6" height="18" rx="1" fill="#7a5530"/>
+    <rect x="205" y="340" width="70" height="5" rx="1" fill="#9b7350" opacity="0.7"/>
 
     <!-- 花（左） -->
     <circle cx="145" cy="380" r="4" fill="#f7d44a"/>
@@ -293,7 +425,22 @@
   飛蚊症は眼球の硝子体内に漂う繊維・細胞の塊が光を遮り、影として見える現象です。
 </footer>
 
+</div><!-- /.main-col -->
+
 <script>
+// ── 有効な症状タイプ管理 ──
+const activeTypes = { worm: true, dot: true, ring: true, cluster: true, goma: true };
+
+document.getElementById('cb-worm').addEventListener('change', e => { activeTypes.worm = e.target.checked; });
+document.getElementById('cb-dot').addEventListener('change', e => { activeTypes.dot = e.target.checked; });
+document.getElementById('cb-ring').addEventListener('change', e => { activeTypes.ring = e.target.checked; });
+document.getElementById('cb-cluster').addEventListener('change', e => { activeTypes.cluster = e.target.checked; });
+document.getElementById('cb-goma').addEventListener('change', e => { activeTypes.goma = e.target.checked; });
+
+// チェックボックスのクリックがドラッグに干渉しないよう阻止
+document.getElementById('controls').addEventListener('mousedown', e => e.stopPropagation());
+document.getElementById('controls').addEventListener('touchstart', e => e.stopPropagation(), {passive: true});
+
 // ── 飛蚊症パーティクル定義 ──
 const FLOATERS = [
   // 糸くず状（ワーム型）
@@ -322,7 +469,33 @@ const FLOATERS = [
   { type: 'cluster', x: 0.20, y: 0.28, arms: 4, armLen: 12, r: 1.5, opacity: 0.16, drift: {x:0.00012, y:0.00010} },
 ];
 
-// アニメーション状態
+// ── ゴマ型パーティクル生成（1200個）──
+const GOMA_COUNT = 1200;
+const gomaParticles = [];
+for (let i = 0; i < GOMA_COUNT; i++) {
+  gomaParticles.push({
+    type: 'goma',
+    // 視野全体にランダム配置（端まで）
+    x: Math.random(),
+    y: Math.random(),
+    // ベース半径：0.5〜1.4px（超微細）
+    r: 0.5 + Math.random() * 0.9,
+    // 不透明度：薄め
+    opacity: 0.06 + Math.random() * 0.13,
+    // 上下揺らぎの位相（各々バラバラ）
+    phase: Math.random() * Math.PI * 2,
+    // 揺らぎ速度（ゆっくり）
+    speed: 0.04 + Math.random() * 0.08,
+    // 上下振幅（正規化座標で）
+    ampY: 0.004 + Math.random() * 0.008,
+    // 微細な横移動
+    ampX: 0.001 + Math.random() * 0.002,
+    // ゴマの色相（グレー〜淡茶）
+    gray: 90 + Math.floor(Math.random() * 50),
+  });
+}
+
+// ── アニメーション状態 ──
 const state = FLOATERS.map(f => ({
   ...f,
   px: f.x, py: f.y,
@@ -336,7 +509,7 @@ const wrap = document.getElementById('appWrap');
 const floaterLayer = document.getElementById('floaterLayer');
 const dividerEl = document.getElementById('divider');
 
-let dividerX = 0.5; // 0〜1
+let dividerX = 0.5;
 let dragging = false;
 let t = 0;
 
@@ -347,14 +520,14 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-// ── 描画 ──
+// ── 描画：通常パーティクル ──
 function drawFloater(f, W, H) {
+  if (!activeTypes[f.type]) return;
   const x = f.px * W, y = f.py * H;
   ctx.save();
   ctx.globalAlpha = f.opacity;
 
   if (f.type === 'worm') {
-    // ワーム形状：連続ベジエ
     const pts = [];
     let cx = x, cy = y;
     for (let i = 0; i < f.segs; i++) {
@@ -377,7 +550,6 @@ function drawFloater(f, W, H) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.stroke();
-    // ハイライト（半透明白）でガラス感
     ctx.strokeStyle = `rgba(255,255,200,0.18)`;
     ctx.lineWidth = f.radius * 0.8;
     ctx.stroke();
@@ -431,26 +603,45 @@ function drawFloater(f, W, H) {
   ctx.restore();
 }
 
+// ── 描画：ゴマ型（バッチ処理で高速化）──
+function drawGoma(W, H) {
+  if (!activeTypes.goma) return;
+  for (const g of gomaParticles) {
+    // 上下揺らぎ（ゆっくり）
+    const offsetY = Math.sin(t * g.speed + g.phase) * g.ampY;
+    const offsetX = Math.cos(t * g.speed * 0.7 + g.phase) * g.ampX;
+    const px = (g.x + offsetX) * W;
+    const py = (g.y + offsetY) * H;
+
+    ctx.beginPath();
+    ctx.arc(px, py, g.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${g.gray},${g.gray},${g.gray},${g.opacity})`;
+    ctx.fill();
+  }
+}
+
+// ── アニメーションループ ──
 function animate(ts) {
   t = ts * 0.001;
   const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
 
-  // 微細なすりガラス感：全体に薄い色収差フィルタ（疑似）
-  // 眼内の散乱光: ごく薄いベール
+  // 薄い散乱光ベール
   ctx.save();
   ctx.globalAlpha = 0.06;
   ctx.fillStyle = 'rgba(200,220,255,1)';
   ctx.fillRect(0, 0, W, H);
   ctx.restore();
 
+  // ゴマ型（背景レイヤー的に最初に描画）
+  drawGoma(W, H);
+
+  // 通常パーティクル
   for (const f of state) {
-    // ゆっくり漂う
     const wobX = Math.sin(t * f.speed * 0.8 + f.phase) * 0.002;
     const wobY = Math.cos(t * f.speed * 0.6 + f.phase + 1) * 0.0015;
     f.px += f.drift.x + wobX * 0.02;
     f.py += f.drift.y + wobY * 0.02;
-    // 境界でバウンス
     if (f.px < 0.02) { f.px = 0.02; f.drift.x *= -1; }
     if (f.px > 0.98) { f.px = 0.98; f.drift.x *= -1; }
     if (f.py < 0.02) { f.py = 0.02; f.drift.y *= -1; }
