@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0042)https://fukunarihiroshi.github.io/floater/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>飛蚊症シミュレーター</title>
+<title>Floater Simulator</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Serif+Display&display=swap');
 
@@ -243,50 +243,115 @@
     line-height: 1.8;
   }
   footer strong { color: #8a9aaa; }
+
+  .lang-switch {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+    color: #f6efe4;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .lang-switch button {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 14px;
+    background: #f6efe4;
+    color: #2b3440;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  }
+  .lang-switch button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+  }
+  .lang-switch button.secondary {
+    background: rgba(255,255,255,0.14);
+    color: #f6efe4;
+  }
+
+  @media (max-width: 860px) {
+    body {
+      flex-direction: column;
+      padding-top: 76px;
+    }
+    .controls {
+      width: min(700px, 96vw);
+      margin-right: 0;
+      margin-bottom: 14px;
+    }
+    .app-wrap {
+      width: min(700px, 96vw);
+    }
+  }
+
 </style>
 </head>
 <body>
 
+<div class="lang-switch" aria-label="Language switcher">
+  <span id="lang-label">Language</span>
+  <button type="button" id="lang-en">English</button>
+  <button type="button" id="lang-ja" class="secondary">日本語</button>
+</div>
+
+
 <!-- ── 左サイドパネル ── -->
 <div class="controls" id="controls">
-  <div class="controls-label">表示する<br>症状を選択</div>
+  <div class="controls-label" data-i18n-html="controlsLabel">Select<br>symptoms</div>
 
   <label class="cb-item">
-    <input type="checkbox" id="cb-worm" checked>
+    <input type="checkbox" id="cb-worm" checked="">
     <span class="cb-icon">🪱</span>
-    <span class="cb-text">ワーム型<small>糸くず状</small></span>
+    <span class="cb-text" data-i18n-html="wormLabel">Worm type<small>String-like</small></span>
   </label>
 
   <label class="cb-item">
-    <input type="checkbox" id="cb-dot" checked>
+    <input type="checkbox" id="cb-dot" checked="">
     <span class="cb-icon">⚫</span>
-    <span class="cb-text">ドット型<small>点状</small></span>
+    <span class="cb-text" data-i18n-html="dotLabel">Dot type<small>Speck-like</small></span>
   </label>
 
   <label class="cb-item">
-    <input type="checkbox" id="cb-ring" checked>
+    <input type="checkbox" id="cb-ring" checked="">
     <span class="cb-icon">⭕</span>
-    <span class="cb-text">リング型<small>輪っか状</small></span>
+    <span class="cb-text" data-i18n-html="ringLabel">Ring type<small>Circle-like</small></span>
   </label>
 
   <label class="cb-item">
-    <input type="checkbox" id="cb-cluster" checked>
+    <input type="checkbox" id="cb-cluster" checked="">
     <span class="cb-icon">🕷</span>
-    <span class="cb-text">クラスター型<small>蜘蛛の巣状</small></span>
+    <span class="cb-text" data-i18n-html="clusterLabel">Cluster type<small>Cobweb-like</small></span>
   </label>
 
   <label class="cb-item">
-    <input type="checkbox" id="cb-goma" checked>
+    <input type="checkbox" id="cb-goma" checked="">
     <span class="cb-icon">🫘</span>
-    <span class="cb-text">ゴマ型<small>小点群・視野全体</small></span>
+    <span class="cb-text" data-i18n-html="gomaLabel">Sesame type<small>Tiny specks across view</small></span>
   </label>
 </div>
 
 <div class="main-col">
 
 <header>
-  <h1>飛蚊症シミュレーター</h1>
-  <p>Floater（飛蚊症）の見え方を体験できます</p>
+  <h1 data-i18n="title">Floater Simulator</h1>
+  <p data-i18n="subtitle">Experience how eye floaters can appear</p>
 </header>
 
 <div class="app-wrap" id="appWrap">
@@ -294,126 +359,126 @@
   <!-- 背景シーン SVG -->
   <svg class="scene" viewBox="0 0 700 525" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
     <defs>
-      <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#3a8fd4"/>
-        <stop offset="100%" stop-color="#b8dff7"/>
-      </linearGradient>
-      <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#5aad50"/>
-        <stop offset="100%" stop-color="#3a7a32"/>
-      </linearGradient>
-      <radialGradient id="sunGlow" cx="78%" cy="18%" r="22%">
-        <stop offset="0%" stop-color="#fff8d0" stop-opacity="0.9"/>
-        <stop offset="60%" stop-color="#ffe090" stop-opacity="0.2"/>
-        <stop offset="100%" stop-color="#ffe090" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="cloudBlur"><feGaussianBlur stdDeviation="3"/></filter>
+      <lineargradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3a8fd4"></stop>
+        <stop offset="100%" stop-color="#b8dff7"></stop>
+      </lineargradient>
+      <lineargradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5aad50"></stop>
+        <stop offset="100%" stop-color="#3a7a32"></stop>
+      </lineargradient>
+      <radialgradient id="sunGlow" cx="78%" cy="18%" r="22%">
+        <stop offset="0%" stop-color="#fff8d0" stop-opacity="0.9"></stop>
+        <stop offset="60%" stop-color="#ffe090" stop-opacity="0.2"></stop>
+        <stop offset="100%" stop-color="#ffe090" stop-opacity="0"></stop>
+      </radialgradient>
+      <filter id="cloudBlur"><fegaussianblur stdDeviation="3"></fegaussianblur></filter>
     </defs>
 
     <!-- 空 -->
-    <rect width="700" height="525" fill="url(#skyGrad)"/>
+    <rect width="700" height="525" fill="url(#skyGrad)"></rect>
     <!-- 太陽グロー -->
-    <ellipse cx="546" cy="94" rx="80" ry="70" fill="url(#sunGlow)"/>
+    <ellipse cx="546" cy="94" rx="80" ry="70" fill="url(#sunGlow)"></ellipse>
     <!-- 太陽 -->
-    <circle cx="546" cy="94" r="30" fill="#fff8b0" opacity="0.95"/>
-    <circle cx="546" cy="94" r="22" fill="#fffde0"/>
+    <circle cx="546" cy="94" r="30" fill="#fff8b0" opacity="0.95"></circle>
+    <circle cx="546" cy="94" r="22" fill="#fffde0"></circle>
 
     <!-- 雲1 -->
     <g filter="url(#cloudBlur)" opacity="0.92">
-      <ellipse cx="120" cy="90" rx="70" ry="30" fill="white"/>
-      <ellipse cx="90" cy="100" rx="42" ry="22" fill="white"/>
-      <ellipse cx="155" cy="98" rx="38" ry="20" fill="white"/>
-      <ellipse cx="120" cy="108" rx="62" ry="18" fill="white"/>
+      <ellipse cx="120" cy="90" rx="70" ry="30" fill="white"></ellipse>
+      <ellipse cx="90" cy="100" rx="42" ry="22" fill="white"></ellipse>
+      <ellipse cx="155" cy="98" rx="38" ry="20" fill="white"></ellipse>
+      <ellipse cx="120" cy="108" rx="62" ry="18" fill="white"></ellipse>
     </g>
     <!-- 雲2 -->
     <g filter="url(#cloudBlur)" opacity="0.85">
-      <ellipse cx="400" cy="60" rx="55" ry="22" fill="white"/>
-      <ellipse cx="375" cy="70" rx="35" ry="18" fill="white"/>
-      <ellipse cx="428" cy="68" rx="32" ry="16" fill="white"/>
+      <ellipse cx="400" cy="60" rx="55" ry="22" fill="white"></ellipse>
+      <ellipse cx="375" cy="70" rx="35" ry="18" fill="white"></ellipse>
+      <ellipse cx="428" cy="68" rx="32" ry="16" fill="white"></ellipse>
     </g>
     <!-- 雲3 -->
     <g filter="url(#cloudBlur)" opacity="0.7">
-      <ellipse cx="270" cy="130" rx="45" ry="18" fill="white"/>
-      <ellipse cx="255" cy="138" rx="28" ry="14" fill="white"/>
-      <ellipse cx="290" cy="136" rx="26" ry="13" fill="white"/>
+      <ellipse cx="270" cy="130" rx="45" ry="18" fill="white"></ellipse>
+      <ellipse cx="255" cy="138" rx="28" ry="14" fill="white"></ellipse>
+      <ellipse cx="290" cy="136" rx="26" ry="13" fill="white"></ellipse>
     </g>
 
     <!-- 遠景の草地 -->
-    <rect x="0" y="300" width="700" height="225" fill="url(#grassGrad)"/>
+    <rect x="0" y="300" width="700" height="225" fill="url(#grassGrad)"></rect>
     <!-- 草の丘 -->
-    <ellipse cx="350" cy="300" rx="400" ry="40" fill="#5aad50"/>
+    <ellipse cx="350" cy="300" rx="400" ry="40" fill="#5aad50"></ellipse>
 
     <!-- 奥の木（左） -->
-    <rect x="88" y="220" width="14" height="100" fill="#5a3a1a"/>
-    <ellipse cx="95" cy="205" rx="42" ry="52" fill="#2d6e28"/>
-    <ellipse cx="80" cy="225" rx="30" ry="38" fill="#3a8030"/>
-    <ellipse cx="112" cy="218" rx="28" ry="35" fill="#255a22"/>
+    <rect x="88" y="220" width="14" height="100" fill="#5a3a1a"></rect>
+    <ellipse cx="95" cy="205" rx="42" ry="52" fill="#2d6e28"></ellipse>
+    <ellipse cx="80" cy="225" rx="30" ry="38" fill="#3a8030"></ellipse>
+    <ellipse cx="112" cy="218" rx="28" ry="35" fill="#255a22"></ellipse>
 
     <!-- 奥の木（右） -->
-    <rect x="590" y="230" width="12" height="90" fill="#5a3a1a"/>
-    <ellipse cx="596" cy="215" rx="38" ry="48" fill="#2d6e28"/>
-    <ellipse cx="578" cy="232" rx="28" ry="35" fill="#3a8030"/>
-    <ellipse cx="612" cy="224" rx="26" ry="32" fill="#255a22"/>
+    <rect x="590" y="230" width="12" height="90" fill="#5a3a1a"></rect>
+    <ellipse cx="596" cy="215" rx="38" ry="48" fill="#2d6e28"></ellipse>
+    <ellipse cx="578" cy="232" rx="28" ry="35" fill="#3a8030"></ellipse>
+    <ellipse cx="612" cy="224" rx="26" ry="32" fill="#255a22"></ellipse>
 
     <!-- 中景の大木（左寄り） -->
-    <rect x="175" y="240" width="22" height="130" fill="#7a4a25"/>
-    <rect x="172" y="330" width="28" height="40" fill="#6b3f1e"/>
-    <ellipse cx="186" cy="220" rx="65" ry="75" fill="#327a2a"/>
-    <ellipse cx="156" cy="248" rx="45" ry="55" fill="#3d8c34"/>
-    <ellipse cx="218" cy="242" rx="42" ry="52" fill="#2a6824"/>
-    <ellipse cx="186" cy="196" rx="40" ry="42" fill="#40962c"/>
+    <rect x="175" y="240" width="22" height="130" fill="#7a4a25"></rect>
+    <rect x="172" y="330" width="28" height="40" fill="#6b3f1e"></rect>
+    <ellipse cx="186" cy="220" rx="65" ry="75" fill="#327a2a"></ellipse>
+    <ellipse cx="156" cy="248" rx="45" ry="55" fill="#3d8c34"></ellipse>
+    <ellipse cx="218" cy="242" rx="42" ry="52" fill="#2a6824"></ellipse>
+    <ellipse cx="186" cy="196" rx="40" ry="42" fill="#40962c"></ellipse>
 
     <!-- 中景の大木（右寄り） -->
-    <rect x="510" y="245" width="20" height="120" fill="#7a4a25"/>
-    <ellipse cx="520" cy="225" rx="60" ry="70" fill="#327a2a"/>
-    <ellipse cx="493" cy="250" rx="42" ry="52" fill="#3d8c34"/>
-    <ellipse cx="548" cy="244" rx="38" ry="48" fill="#2a6824"/>
+    <rect x="510" y="245" width="20" height="120" fill="#7a4a25"></rect>
+    <ellipse cx="520" cy="225" rx="60" ry="70" fill="#327a2a"></ellipse>
+    <ellipse cx="493" cy="250" rx="42" ry="52" fill="#3d8c34"></ellipse>
+    <ellipse cx="548" cy="244" rx="38" ry="48" fill="#2a6824"></ellipse>
 
     <!-- 前景の草むら -->
-    <path d="M0 420 Q50 390 100 415 Q150 438 200 418 Q260 396 320 422 Q380 445 440 420 Q500 398 560 424 Q620 446 700 420 L700 525 L0 525Z" fill="#4a9e40"/>
-    <path d="M0 450 Q80 430 160 448 Q240 464 320 445 Q400 428 480 450 Q560 468 640 448 L700 455 L700 525 L0 525Z" fill="#3d8832"/>
+    <path d="M0 420 Q50 390 100 415 Q150 438 200 418 Q260 396 320 422 Q380 445 440 420 Q500 398 560 424 Q620 446 700 420 L700 525 L0 525Z" fill="#4a9e40"></path>
+    <path d="M0 450 Q80 430 160 448 Q240 464 320 445 Q400 428 480 450 Q560 468 640 448 L700 455 L700 525 L0 525Z" fill="#3d8832"></path>
 
     <!-- 遠景の建物（かすか） -->
-    <rect x="310" y="268" width="30" height="35" rx="2" fill="#a0b8c8" opacity="0.35"/>
-    <rect x="344" y="275" width="22" height="28" rx="2" fill="#90a8b8" opacity="0.3"/>
-    <rect x="290" y="276" width="18" height="27" rx="2" fill="#a8b8c4" opacity="0.28"/>
-    <rect x="314" y="262" width="22" height="8" rx="1" fill="#b0c0cc" opacity="0.3"/>
+    <rect x="310" y="268" width="30" height="35" rx="2" fill="#a0b8c8" opacity="0.35"></rect>
+    <rect x="344" y="275" width="22" height="28" rx="2" fill="#90a8b8" opacity="0.3"></rect>
+    <rect x="290" y="276" width="18" height="27" rx="2" fill="#a8b8c4" opacity="0.28"></rect>
+    <rect x="314" y="262" width="22" height="8" rx="1" fill="#b0c0cc" opacity="0.3"></rect>
 
     <!-- ベンチ -->
-    <rect x="205" y="350" width="75" height="8" rx="3" fill="#c8a870"/>
-    <rect x="205" y="342" width="75" height="6" rx="2" fill="#d4b880" opacity="0.8"/>
-    <rect x="210" y="358" width="6" height="18" rx="1" fill="#7a5530"/>
-    <rect x="264" y="358" width="6" height="18" rx="1" fill="#7a5530"/>
-    <rect x="205" y="340" width="70" height="5" rx="1" fill="#9b7350" opacity="0.7"/>
+    <rect x="205" y="350" width="75" height="8" rx="3" fill="#c8a870"></rect>
+    <rect x="205" y="342" width="75" height="6" rx="2" fill="#d4b880" opacity="0.8"></rect>
+    <rect x="210" y="358" width="6" height="18" rx="1" fill="#7a5530"></rect>
+    <rect x="264" y="358" width="6" height="18" rx="1" fill="#7a5530"></rect>
+    <rect x="205" y="340" width="70" height="5" rx="1" fill="#9b7350" opacity="0.7"></rect>
 
     <!-- 花（左） -->
-    <circle cx="145" cy="380" r="4" fill="#f7d44a"/>
-    <circle cx="158" cy="375" r="3.5" fill="#e85d8a"/>
-    <circle cx="133" cy="372" r="3" fill="#f0a030"/>
-    <circle cx="162" cy="385" r="3" fill="#70c840"/>
-    <circle cx="140" cy="368" r="2.5" fill="#e86060"/>
+    <circle cx="145" cy="380" r="4" fill="#f7d44a"></circle>
+    <circle cx="158" cy="375" r="3.5" fill="#e85d8a"></circle>
+    <circle cx="133" cy="372" r="3" fill="#f0a030"></circle>
+    <circle cx="162" cy="385" r="3" fill="#70c840"></circle>
+    <circle cx="140" cy="368" r="2.5" fill="#e86060"></circle>
 
     <!-- 鳥（遠景） -->
-    <path d="M430 145 Q435 140 440 145" stroke="#334" stroke-width="1.8" fill="none"/>
-    <path d="M448 138 Q453 133 458 138" stroke="#334" stroke-width="1.8" fill="none"/>
-    <path d="M462 152 Q466 148 470 152" stroke="#556" stroke-width="1.5" fill="none"/>
+    <path d="M430 145 Q435 140 440 145" stroke="#334" stroke-width="1.8" fill="none"></path>
+    <path d="M448 138 Q453 133 458 138" stroke="#334" stroke-width="1.8" fill="none"></path>
+    <path d="M462 152 Q466 148 470 152" stroke="#556" stroke-width="1.5" fill="none"></path>
   </svg>
 
   <!-- 飛蚊症オーバーレイ -->
-  <div class="floater-layer" id="floaterLayer">
-    <canvas class="floater-canvas" id="floaterCanvas"></canvas>
+  <div class="floater-layer" id="floaterLayer" style="clip-path: inset(0px 50% 0px 0px);">
+    <canvas class="floater-canvas" id="floaterCanvas" width="700" height="525"></canvas>
   </div>
 
   <!-- ラベル -->
-  <div class="label label-left">飛蚊症あり</div>
-  <div class="label label-right">通常の見え方</div>
+  <div class="label label-left" data-i18n="leftLabel">With floaters</div>
+  <div class="label label-right" data-i18n="rightLabel">Normal vision</div>
 
   <!-- 分割バー -->
-  <div class="divider" id="divider">
+  <div class="divider" id="divider" style="left: 50%;">
     <div class="divider-handle">
       <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.2" stroke-linecap="round">
-        <polyline points="9 18 15 12 9 6" transform="translate(-2,0)"/>
-        <polyline points="15 18 9 12 15 6" transform="translate(2,0)"/>
+        <polyline points="9 18 15 12 9 6" transform="translate(-2,0)"></polyline>
+        <polyline points="15 18 9 12 15 6" transform="translate(2,0)"></polyline>
       </svg>
     </div>
   </div>
@@ -421,8 +486,7 @@
 </div>
 
 <footer>
-  <strong>バーをドラッグ</strong>して左右に動かすと、飛蚊症の見え方と通常の視界を比較できます。<br>
-  飛蚊症は眼球の硝子体内に漂う繊維・細胞の塊が光を遮り、影として見える現象です。
+  <strong data-i18n="footerStrong">Drag the bar</strong><span data-i18n-html="footerText"> left and right to compare floater vision with normal vision.<br>Floaters are caused by fibers or clumps of cells drifting in the vitreous, casting shadows on the retina.</span>
 </footer>
 
 </div><!-- /.main-col -->
@@ -679,6 +743,72 @@ window.addEventListener('mousemove', onMove);
 window.addEventListener('touchmove', onMove, {passive:false});
 window.addEventListener('mouseup', () => dragging = false);
 window.addEventListener('touchend', () => dragging = false);
+
+
+// ── Bilingual UI ──
+const I18N = {
+  en: {
+    pageTitle: 'Floater Simulator',
+    langLabel: 'Language',
+    controlsLabel: 'Select<br>symptoms',
+    title: 'Floater Simulator',
+    subtitle: 'Experience how eye floaters can appear',
+    wormLabel: 'Worm type<small>String-like</small>',
+    dotLabel: 'Dot type<small>Speck-like</small>',
+    ringLabel: 'Ring type<small>Circle-like</small>',
+    clusterLabel: 'Cluster type<small>Cobweb-like</small>',
+    gomaLabel: 'Sesame type<small>Tiny specks across view</small>',
+    leftLabel: 'With floaters',
+    rightLabel: 'Normal vision',
+    footerStrong: 'Drag the bar',
+    footerText: ' left and right to compare floater vision with normal vision.<br>Floaters are caused by fibers or clumps of cells drifting in the vitreous, casting shadows on the retina.'
+  },
+  ja: {
+    pageTitle: '飛蚊症シミュレーター',
+    langLabel: '言語',
+    controlsLabel: '表示する<br>症状を選択',
+    title: '飛蚊症シミュレーター',
+    subtitle: 'Floater（飛蚊症）の見え方を体験できます',
+    wormLabel: 'ワーム型<small>糸くず状</small>',
+    dotLabel: 'ドット型<small>点状</small>',
+    ringLabel: 'リング型<small>輪っか状</small>',
+    clusterLabel: 'クラスター型<small>蜘蛛の巣状</small>',
+    gomaLabel: 'ゴマ型<small>小点群・視野全体</small>',
+    leftLabel: '飛蚊症あり',
+    rightLabel: '通常の見え方',
+    footerStrong: 'バーをドラッグ',
+    footerText: 'して左右に動かすと、飛蚊症の見え方と通常の視界を比較できます。<br>飛蚊症は眼球の硝子体内に漂う繊維・細胞の塊が光を遮り、影として見える現象です。'
+  }
+};
+
+function applyLanguage(lang) {
+  const t = I18N[lang] || I18N.en;
+  document.documentElement.lang = lang;
+  document.title = t.pageTitle;
+  const langLabel = document.getElementById('lang-label');
+  if (langLabel) langLabel.textContent = t.langLabel;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] != null) el.textContent = t[key];
+  });
+
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (t[key] != null) el.innerHTML = t[key];
+  });
+
+  const enBtn = document.getElementById('lang-en');
+  const jaBtn = document.getElementById('lang-ja');
+  enBtn.classList.toggle('secondary', lang !== 'en');
+  jaBtn.classList.toggle('secondary', lang === 'en');
+}
+
+document.getElementById('lang-en').addEventListener('click', () => applyLanguage('en'));
+document.getElementById('lang-ja').addEventListener('click', () => applyLanguage('ja'));
+applyLanguage('en');
+
 </script>
-</body>
-</html>
+
+
+<div class="glasp-extension-toaster" style="display: block; width: 320px; margin: unset; padding: unset; border: unset; border-radius: unset; outline: unset; background-color: unset; box-shadow: unset; position: fixed; top: 40px; right: 24px; z-index: 9999;"><template shadowrootmode="open"><div class="glasp-extension" style="font-family: inherit;"></div></template></div></body><div class="glasp-extension" style="display: block; width: unset; margin: unset; padding: unset; border: unset; border-radius: unset; outline: unset; background-color: unset; box-shadow: unset; position: fixed; bottom: 16px; right: 16px; z-index: 9999;"><div class="glasp-extension" style="font-family: inherit;"></div></div></html>
